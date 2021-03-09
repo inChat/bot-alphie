@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  rasa_alphie:
+    image: rasa/rasa:2.3.4-full
+    container_name: inchat-rasa-alphie-server
+    volumes:
+      - ./:/app
+    environment:
+      - PYTHONPATH=/app
+    command: run -p 5006 --enable-api --cors "*" --auth-token mydevelopmentsecret --debug #"will use latest model in models directory"
+    ports:
+      - "5006:5006"
+    networks:
+      alphie_main:
+        ipv4_address: 172.20.128.8
+
+networks:
+  alphie_main:
+    name: 'inchat-platform_main'
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
